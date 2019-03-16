@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour {
     private float darknessTimer = 0f;
     public float maxDarknessTime;
 
+    public bool printLightLevel;
+
     private Rigidbody rb;
 
     private void Awake() {
@@ -25,6 +27,11 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Move();
+
+        if(printLightLevel)
+        {
+            Debug.Log("Light Level: " + lightChecker.LightLevel);
+        }
 
         if(lightChecker.LightLevel < minLightValue)
         {
@@ -55,6 +62,5 @@ public class PlayerController : MonoBehaviour {
         Vector3 movement = new Vector3(movementSpeed * Time.deltaTime * horizAxis, rb.velocity.y, movementSpeed * Time.deltaTime * vertAxis);
 
         rb.velocity = movement;
-        // transform.Translate(movement);
     }
 }
