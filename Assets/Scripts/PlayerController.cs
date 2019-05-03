@@ -17,11 +17,34 @@ public class PlayerController : MonoBehaviour {
 
     public bool printLightLevel;
 
+    public GameObject Torch;
+    private Torch torchComponent;
+
+    public GameObject CampFire;
+    private FireController campfireComponent;
+    
+    public int numSticks;
+
+    public bool isSwinging;
+
+    private Animator anim;
+    private AudioSource audio;
+
+    public bool isDead;
+
     private Rigidbody rb;
 
     private void Awake() {
+        numSticks = 0;
+        isSwinging = false;
+        isDead = false;
+
         lightChecker = GetComponentInChildren<LightCheck>();
         rb = GetComponent<Rigidbody>();
+        campfireComponent = CampFire.GetComponent<FireController>();
+        torchComponent = Torch.GetComponent<Torch>();
+        anim = GetComponent<Animator>();
+        audio = GetComponent<AudioSource>();
     }
 	
 	// Update is called once per frame
@@ -62,5 +85,48 @@ public class PlayerController : MonoBehaviour {
         Vector3 movement = new Vector3(movementSpeed * Time.deltaTime * horizAxis, rb.velocity.y, movementSpeed * Time.deltaTime * vertAxis);
 
         rb.velocity = movement;
+    }
+
+    private void takeFuelForTorch(int amount)
+    {
+        if (campfireComponent.Fuel > amount)
+        {
+            campfireComponent.Fuel -= amount;
+            torchComponent.torchFuel += amount;
+        }
+        else
+        {
+            Debug.Log("Not Enough Fuel!!");
+        }
+    }
+
+    void takeFuelFromFire()
+    {
+        takeFuelForTorch(10);
+        Debug.Log("Just took 10 fuel");
+    }
+
+    private void OnCollisionStay(Collision col)
+    {
+        if(col.gameObject.name == "Campfire")
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                campfireComponent.Fuel += numSticks ;
+                Debug.Log("Added " + (numSticks) + " to Fire");
+                //set sticks to 0
+                numSticks = 0;
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                takeFuelFromFire();
+            }
+        }
+        else if(col.gameObject.name == "Enemy" || col.gameObject.name == "House")
+        {
+            isDead = true;
+            //Debug.Log("you're dead!");
+        }
+
     }
 }
