@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour {
         {
             darknessTimer = 0f;
         }
+
 	}
 
     //call this to move the player 1 frame
@@ -128,5 +129,25 @@ public class PlayerController : MonoBehaviour {
             //Debug.Log("you're dead!");
         }
 
+        foreach(Transform child in transform)
+        {
+            if(child.name == "Torch")
+            {
+                if(Input.GetKeyDown(KeyCode.G))
+                {
+                    child.transform.parent = null;
+                }
+            }
+        }
+
+    }
+
+    //function to pick up items
+    void OnControllColliderHit(ControllerColliderHit hitObj)
+    {
+        if(hitObj.gameObject.tag == "CanPickUp")
+        {
+
+        }
     }
 }
