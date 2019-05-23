@@ -37,10 +37,10 @@ public class LightCheck : MonoBehaviour
             LightLevel += ((0.2126f * colors[i].r) + (0.7152f * colors[i].g) + (0.0722f * colors[i].b));
         }
 
-        if(LightLevel == 0f)
-        {
-            LightLevel = 5000000;
-        }
+        // if(LightLevel == 0f)
+        // {
+        //     LightLevel = 5000000;
+        // }
 
         // Debug.Log("LightLevel: " + LightLevel);
     }

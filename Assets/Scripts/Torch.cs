@@ -7,7 +7,7 @@ public class Torch : MonoBehaviour
     public GameObject CampFire;
     public Light Light;
     private GameObject[] Enemies;
-    public float MaxRange;
+    private float MaxRange;
     public float torchFuel = 100f;
     private float torchScale;
     public float torchBurnRate = 10f;
@@ -21,6 +21,7 @@ public class Torch : MonoBehaviour
         //but not for now cuz of testing and whatnot
         // StartCoroutine("oneSecPrint");
         // Enemies = GameObject.FindGameObjectsWithTag("Enemies");
+        MaxRange = Light.range;
     }
 
     void Update()

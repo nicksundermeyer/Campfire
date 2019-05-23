@@ -1,3 +1,3 @@
 # Campfire
 
-Unity version 2018.3.6f1
+Unity version 2019.1.0f1
