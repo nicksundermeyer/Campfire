@@ -27,7 +27,7 @@ public class PickUp : MonoBehaviour
             //Debug.Log("FUCK");
             if(Input.GetKeyDown(KeyCode.F))
             {
-                Debug.Log("ya pressed f");
+                // Debug.Log("ya pressed f");
                 //make parent transform the player
                 transform.parent = player.transform;
                 //center transform on player center (we can make the adjustable)
