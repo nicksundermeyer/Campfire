@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+    // called on move input
     public void Move (InputAction.CallbackContext context) {
         float horizAxis = context.ReadValue<Vector2> ().x;
         float vertAxis = context.ReadValue<Vector2> ().y;
