@@ -148,6 +148,7 @@ MonoBehaviour:
   numSticks: 10
   isSwinging: 0
   isDead: 0
+  canDropTorch: 1
   pickupPos: {fileID: 5707373235743804800}
 --- !u!54 &6173258519609993237
 Rigidbody:

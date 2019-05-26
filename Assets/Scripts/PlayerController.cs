@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour {
     public int numSticks = 0;
     public bool isSwinging = false;
     public bool isDead = false;
+    public bool canDropTorch = true;
 
     // animation and audio
     private Animator anim;
@@ -36,8 +37,9 @@ public class PlayerController : MonoBehaviour {
 
     // collision checking
     private bool touchingCampfire = false;
-    private bool pickup = false; // whether we currently have something in our hand
-    private GameObject pickupObj = null;
+    private GameObject touchingSconce = null;
+    private GameObject currentPickup = null; // whether we currently have something in our hand
+    private GameObject pickupObj = null; // potential nearby object to be picked up
 
     private void Awake () {
         lightChecker = GetComponentInChildren<LightCheck> ();
@@ -70,7 +72,10 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    // called on move input
+    /// <summary>
+    /// Called on move input
+    /// </summary>
+    /// <param name="context">InputAction context information</param>
     public void Move (InputAction.CallbackContext context) {
         float horizAxis = context.ReadValue<Vector2> ().x;
         float vertAxis = context.ReadValue<Vector2> ().y;
@@ -80,6 +85,10 @@ public class PlayerController : MonoBehaviour {
         rb.velocity = movement;
     }
 
+    /// <summary>
+    /// called on interact button input
+    /// </summary>
+    /// <param name="context">InputAction context information</param>
     public void Interact (InputAction.CallbackContext context) {
         if (touchingCampfire) {
             if (numSticks > 0)
@@ -88,39 +97,56 @@ public class PlayerController : MonoBehaviour {
                 takeFuelFromFire ();
         }
 
+        // if next to a sconce and currently holding something, put it in the sconce
+        if (touchingSconce && currentPickup) {
+            currentPickup.transform.parent = touchingSconce.transform;
+            currentPickup.transform.localPosition = new Vector3 (0, 0, 0);
+            currentPickup = null;
+        }
+
         // drop object if one is currently picked up, pick up if one is nearby
-        if (pickup) {
-            dropObject ();
-        } else if (pickupObj != null) {
+        if (currentPickup) {
+            if (currentPickup.name != "Torch") {
+                dropObject ();
+            } else if (canDropTorch) {
+                dropObject ();
+            }
+        } else if (pickupObj) { // if there is an object nearby that can be picked up
             pickupObject ();
         }
     }
 
+    /// <summary>
+    /// Called to pick up an object and parent it to the player
+    /// </summary>
     private void pickupObject () {
+        currentPickup = pickupObj;
         // set kinematic and disable collider
-        pickupObj.GetComponent<Rigidbody> ().isKinematic = true;
-        pickupObj.GetComponent<Collider> ().enabled = false;
+        currentPickup.GetComponent<Rigidbody> ().isKinematic = true;
+        currentPickup.GetComponent<Collider> ().enabled = false;
         // parent object to pickup position
-        pickupObj.transform.parent = pickupPos.transform;
+        currentPickup.transform.parent = pickupPos.transform;
         // set position and rotation
-        pickupObj.transform.localPosition = new Vector3 (0, 0, 0);
-        pickupObj.transform.localEulerAngles = new Vector3 (0, 0, 0);
-
-        pickup = true;
+        currentPickup.transform.localPosition = new Vector3 (0, 0, 0);
+        currentPickup.transform.localEulerAngles = new Vector3 (0, 0, 0);
     }
 
+    /// <summary>
+    /// Called to drop object and unparent it from player
+    /// </summary>
     private void dropObject () {
-        // get currently picked up object
-        GameObject currentObj = pickupPos.transform.GetChild (0).gameObject;
-        // unparent it
-        currentObj.transform.parent = null;
+        // unparent currently picked up object
+        currentPickup.transform.parent = null;
         // set non kinematic and enable collider
-        currentObj.GetComponent<Rigidbody> ().isKinematic = false;
-        currentObj.GetComponent<Collider> ().enabled = true;
+        currentPickup.GetComponent<Rigidbody> ().isKinematic = false;
+        currentPickup.GetComponent<Collider> ().enabled = true;
 
-        pickup = false;
+        currentPickup = null;
     }
 
+    /// <summary>
+    /// Take fuel out of the campfire
+    /// </summary>
     private void takeFuelFromFire () {
         Debug.Log ("Just took 10 fuel");
         int amount = 10;
@@ -133,6 +159,9 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Put all currently held fuel into the campfire
+    /// </summary>
     private void putFuelInFire () {
         Debug.Log ("Added " + (numSticks) + " to Fire");
 
@@ -140,9 +169,10 @@ public class PlayerController : MonoBehaviour {
         numSticks = 0;
     }
 
-    // checking for collisions and setting variables
+    // Collision checking functions
+
     private void OnCollisionEnter (Collision other) {
-        // checking collisions with fire
+        // checking collisions with fire and sconces
         touchingCampfire = (other.gameObject.name == "Campfire") ? true : false;
 
         if (other.gameObject.name == "Enemy" || other.gameObject.name == "House")
@@ -155,9 +185,11 @@ public class PlayerController : MonoBehaviour {
 
     private void OnTriggerEnter (Collider other) {
         pickupObj = (other.gameObject.tag == "Pickup") ? other.gameObject : null;
+        touchingSconce = (other.gameObject.name == "Sconce") ? other.gameObject : null;
     }
 
     private void OnTriggerExit (Collider other) {
         pickupObj = null;
+        touchingSconce = null;
     }
 }
