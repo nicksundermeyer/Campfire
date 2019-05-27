@@ -197,6 +197,16 @@ PrefabInstance:
       propertyPath: CampFire
       value: 
       objectReference: {fileID: 1035300570}
+    - target: {fileID: 6173258519609993236, guid: 931322105058b72458d965a97918c1e2,
+        type: 3}
+      propertyPath: printLightLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6173258519609993236, guid: 931322105058b72458d965a97918c1e2,
+        type: 3}
+      propertyPath: minLightValue
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 931322105058b72458d965a97918c1e2, type: 3}
 --- !u!1 &274429285
@@ -781,6 +791,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &612990743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6173258519609993234, guid: 931322105058b72458d965a97918c1e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 194775614}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &724467729
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,7 +1074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 235d732c48a0f1d4aa6b2ee90bc3c21d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
+  Player: {fileID: 612990743}
   stickValue: 20
 --- !u!65 &1168856663
 BoxCollider:
