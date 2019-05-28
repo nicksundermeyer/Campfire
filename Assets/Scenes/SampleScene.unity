@@ -2927,5 +2927,10 @@ PrefabInstance:
       propertyPath: CampFire
       value: 
       objectReference: {fileID: 1035300570}
+    - target: {fileID: 1411694398662636012, guid: d65100819fb06ab4bb66f3facf8c79aa,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d65100819fb06ab4bb66f3facf8c79aa, type: 3}

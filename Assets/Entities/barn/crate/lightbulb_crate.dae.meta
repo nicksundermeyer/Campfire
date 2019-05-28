@@ -3,7 +3,12 @@ guid: 0c67384232d435940ac8378fc7449209
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lightbulb_crate_dds
+    second: {fileID: 2100000, guid: 4bdd96859c22ac04b912bb7402d41da8, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
