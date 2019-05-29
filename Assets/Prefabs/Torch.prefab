@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4499571620717099267}
   - component: {fileID: 4499571620717099264}
-  - component: {fileID: 4499571620717099266}
   - component: {fileID: 4499571620717099271}
   - component: {fileID: 4499571620717099268}
   - component: {fileID: 3138570408796362204}
@@ -31,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 4499571620717099265}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 0.3, y: 1, z: 0.3}
+  m_LocalScale: {x: 0.25708202, y: 0.85694, z: 0.25708202}
   m_Children:
   - {fileID: 4499571621322667756}
   - {fileID: 4463303931232335651}
@@ -55,22 +54,6 @@ MonoBehaviour:
   torchFuel: 100
   torchBurnRate: 1
   rangeScale: 0
---- !u!54 &4499571620717099266
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4499571620717099265}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!33 &4499571620717099271
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -124,7 +107,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4499571620717099265}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.99999994, y: 1, z: 0.99999994}
@@ -345,11 +328,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4499571620717099267}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 022e8037aad012b458b47ead71dae676,
-        type: 3}
-      propertyPath: m_Name
-      value: torch1
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 022e8037aad012b458b47ead71dae676,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -419,6 +397,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 8.146334
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 022e8037aad012b458b47ead71dae676,
+        type: 3}
+      propertyPath: m_Name
+      value: torch1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 022e8037aad012b458b47ead71dae676,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 022e8037aad012b458b47ead71dae676, type: 3}
