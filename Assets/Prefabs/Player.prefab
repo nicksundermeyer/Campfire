@@ -141,7 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 300
   printLightLevel: 0
-  minLightValue: 1400000
+  minLightValue: 1000
   maxDarknessTime: 0.5
   Torch: {fileID: 0}
   CampFire: {fileID: 0}

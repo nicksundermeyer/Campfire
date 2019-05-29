@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour {
     private GameObject touchingSconce = null;
     private GameObject currentPickup = null; // whether we currently have something in our hand
     private GameObject pickupObj = null; // potential nearby object to be picked up
+   
 
     private void Awake () {
         lightChecker = GetComponentInChildren<LightCheck> ();
@@ -102,6 +103,7 @@ public class PlayerController : MonoBehaviour {
             currentPickup.transform.parent = touchingSconce.transform;
             currentPickup.transform.localPosition = new Vector3 (0, 0, 0);
             currentPickup = null;
+            Debug.Log("this is colliding");
         }
 
         // drop object if one is currently picked up, pick up if one is nearby
