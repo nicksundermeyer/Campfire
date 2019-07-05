@@ -2,18 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
     //movement variable
     public float movementSpeed = 20f;
-
-    // light detection variables
-    public bool printLightLevel;
-    public float minLightValue;
-    public float maxDarknessTime;
-    private LightCheck lightChecker;
-    private float darknessTimer = 0f;
 
     // GameObject references
     public GameObject Torch;
@@ -22,9 +14,6 @@ public class PlayerController : MonoBehaviour {
     private FireController campfireComponent;
 
     // editor variables
-    public int numSticks = 0;
-    public bool isSwinging = false;
-    public bool isDead = false;
     public bool canDropTorch = true;
 
     // animation and audio
@@ -36,41 +25,18 @@ public class PlayerController : MonoBehaviour {
     public GameObject pickupPos;
 
     // collision checking
-    private bool touchingCampfire = false;
+    private FireController touchingCampfire = null;
     private GameObject touchingSconce = null;
     private GameObject currentPickup = null; // whether we currently have something in our hand
     private GameObject pickupObj = null; // potential nearby object to be picked up
-   
+    private Door touchingDoor = null;
 
     private void Awake () {
-        lightChecker = GetComponentInChildren<LightCheck> ();
         rb = GetComponent<Rigidbody> ();
         campfireComponent = CampFire.GetComponent<FireController> ();
         torchComponent = Torch.GetComponent<Torch> ();
         anim = GetComponent<Animator> ();
         audio = GetComponent<AudioSource> ();
-    }
-
-    // Update is called once per frame
-    void Update () {
-        if (printLightLevel) {
-            Debug.Log ("Light Level: " + lightChecker.LightLevel);
-        }
-
-        if (lightChecker.LightLevel < minLightValue) {
-            // Debug.Log("In Darkness: " + lightChecker.LightLevel);
-
-            if (darknessTimer == 0f) {
-                darknessTimer = Time.time;
-            }
-
-            if ((Time.time - darknessTimer) > maxDarknessTime) {
-                SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
-            }
-        } else {
-            darknessTimer = 0f;
-        }
-
     }
 
     /// <summary>
@@ -92,10 +58,11 @@ public class PlayerController : MonoBehaviour {
     /// <param name="context">InputAction context information</param>
     public void Interact (InputAction.CallbackContext context) {
         if (touchingCampfire) {
-            if (numSticks > 0)
-                putFuelInFire ();
-            else
-                takeFuelFromFire ();
+            touchingCampfire.Interact ();
+        }
+
+        if (touchingDoor) {
+            touchingDoor.Interact ();
         }
 
         // if next to a sconce and currently holding something, put it in the sconce
@@ -103,7 +70,7 @@ public class PlayerController : MonoBehaviour {
             currentPickup.transform.parent = touchingSconce.transform;
             currentPickup.transform.localPosition = new Vector3 (0, 0, 0);
             currentPickup = null;
-            Debug.Log("this is colliding");
+            Debug.Log ("this is colliding");
         }
 
         // drop object if one is currently picked up, pick up if one is nearby
@@ -146,43 +113,17 @@ public class PlayerController : MonoBehaviour {
         currentPickup = null;
     }
 
-    /// <summary>
-    /// Take fuel out of the campfire
-    /// </summary>
-    private void takeFuelFromFire () {
-        Debug.Log ("Just took 10 fuel");
-        int amount = 10;
-
-        if (campfireComponent.Fuel > amount) {
-            campfireComponent.Fuel -= amount;
-            torchComponent.torchFuel += amount;
-        } else {
-            Debug.Log ("Not Enough Fuel!!");
-        }
-    }
-
-    /// <summary>
-    /// Put all currently held fuel into the campfire
-    /// </summary>
-    private void putFuelInFire () {
-        Debug.Log ("Added " + (numSticks) + " to Fire");
-
-        campfireComponent.Fuel += numSticks;
-        numSticks = 0;
-    }
-
     // Collision checking functions
 
     private void OnCollisionEnter (Collision other) {
         // checking collisions with fire and sconces
-        touchingCampfire = (other.gameObject.name == "Campfire") ? true : false;
-
-        if (other.gameObject.name == "Enemy" || other.gameObject.name == "House")
-            isDead = true;
+        touchingCampfire = (other.gameObject.GetComponent<FireController> () != null) ? other.gameObject.GetComponent<FireController> () : null;
+        touchingDoor = (other.gameObject.GetComponent<Door> () != null) ? other.gameObject.GetComponent<Door> () : null;
     }
 
     private void OnCollisionExit (Collision other) {
-        touchingCampfire = false;
+        touchingCampfire = null;
+        touchingDoor = null;
     }
 
     private void OnTriggerEnter (Collider other) {

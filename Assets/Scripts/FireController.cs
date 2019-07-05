@@ -2,64 +2,72 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireController : MonoBehaviour
-{
+public class FireController : MonoBehaviour {
     public GameObject Light;
-    public GameObject player;
     public float Fuel = 100;
     public float burnRate = 2f;
     public float MaxRange;
     private float fireScale;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         // StartCoroutine("oneSecPrint");
-	}
+    }
 
-    IEnumerator oneSecPrint()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
-            OutputFuel();
+    IEnumerator oneSecPrint () {
+        while (true) {
+            yield return new WaitForSeconds (1f);
+            OutputFuel ();
         }
     }
-	
-	// Update is called once per frame
+
+    // Update is called once per frame
     void Update () {
-        burnFuel();
-        // if (Fuel <= 0)
-        // {
-        //     player.GetComponent<PlayerController>().isDead = true;
-        //     //Debug.Log("You're dead!");
-        // }
-	}
+        burnFuel ();
+    }
 
-    void burnFuel()
-    {
-        if (Fuel > 0)
-        {
+    public void Interact () {
+        if (GameManager.Instance.numSticks > 0)
+            putFuelInFire ();
+        else
+            takeFuelFromFire ();
+    }
+
+    void burnFuel () {
+        if (Fuel > 0) {
             Fuel -= burnRate * Time.deltaTime;
-            fireScale = Mathf.Clamp(Fuel, 0, MaxRange);
-            Light.transform.localScale = new Vector3(fireScale / 2, fireScale / 2, fireScale / 2);
+            fireScale = Mathf.Clamp (Fuel, 0, MaxRange);
+            Light.transform.localScale = new Vector3 (fireScale / 2, fireScale / 2, fireScale / 2);
         }
     }
 
-    //void giveFuel(float amount)
-    //{
-    //    //when space bar is pressed
-    //    //if player is colliding with the fire
-    //}
+    /// <summary>
+    /// Take fuel out of the campfire
+    /// </summary>
+    private void takeFuelFromFire () {
+        Debug.Log ("Just took 10 fuel");
+        int amount = 10;
 
-    //void receiveFuel(float amount)
-    //{
-    //    //if player is colliding with fire
-    //    //give sticks from player inventory
-    //}
+        if (Fuel > amount) {
+            Fuel -= amount;
+            GameManager.Instance.torch.torchFuel += amount;
+        } else {
+            Debug.Log ("Not Enough Fuel!!");
+        }
+    }
+
+    /// <summary>
+    /// Put all currently held fuel into the campfire
+    /// </summary>
+    private void putFuelInFire () {
+        Debug.Log ("Added " + (GameManager.Instance.numSticks) + " to Fire");
+
+        Fuel += GameManager.Instance.numSticks;
+        GameManager.Instance.numSticks = 0;
+    }
 
     //for testing purposes only
-    void OutputFuel()
-    {
-        Debug.Log("CAMPFIRE :: Remaining Fuel: " + Fuel);
+    void OutputFuel () {
+        Debug.Log ("CAMPFIRE :: Remaining Fuel: " + Fuel);
     }
 }

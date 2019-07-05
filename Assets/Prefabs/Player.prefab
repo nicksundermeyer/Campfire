@@ -140,14 +140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 300
-  printLightLevel: 0
-  minLightValue: 1000
-  maxDarknessTime: 0.5
   Torch: {fileID: 0}
   CampFire: {fileID: 0}
-  numSticks: 10
-  isSwinging: 0
-  isDead: 0
   canDropTorch: 1
   pickupPos: {fileID: 5707373235743804800}
 --- !u!54 &6173258519609993237
@@ -460,6 +454,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2152d29222fdad4bb9893c84b193c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  printLightLevel: 0
+  minLightValue: 0
+  maxDarknessTime: 0
   lightCheckTexture: {fileID: 8400000, guid: 276aa8abf298fa14c9b6806859a01762, type: 2}
   LightLevel: 0
 --- !u!114 &6173258521167851385
