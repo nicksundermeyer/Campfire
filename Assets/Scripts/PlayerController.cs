@@ -57,14 +57,24 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
     /// <param name="context">InputAction context information</param>
     public void Interact (InputAction.CallbackContext context) {
-        if (touchingCampfire) {
-            touchingCampfire.Interact ();
-        }
+        // Debug.Log(context.interaction);
+        if (context.interaction is UnityEngine.InputSystem.Interactions.PressInteraction) {
+            if (touchingCampfire) {
+                touchingCampfire.Interact ();
+            }
 
-        if (touchingDoor) {
-            touchingDoor.Interact ();
-        }
+            if (touchingDoor) {
+                touchingDoor.Interact ();
+            }
 
+            checkPickup ();
+        }
+    }
+
+    /// <summary>
+    /// Check if object should be picked up or put down
+    /// </summary>
+    private void checkPickup () {
         // if next to a sconce and currently holding something, put it in the sconce
         if (touchingSconce && currentPickup) {
             currentPickup.transform.parent = touchingSconce.transform;

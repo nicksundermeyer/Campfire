@@ -45,7 +45,7 @@ public class LightCheck : MonoBehaviour {
             Debug.Log ("Light Level: " + LightLevel);
         }
 
-        if (LightLevel < minLightValue) {
+        if (LightLevel <= minLightValue) {
             // Debug.Log("In Darkness: " + lightChecker.LightLevel);
 
             if (darknessTimer == 0f) {
