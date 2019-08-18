@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireController : MonoBehaviour {
+public class FireController : InteractableObject {
     public GameObject Light;
     public float Fuel = 100;
     public float burnRate = 2f;
@@ -26,7 +26,7 @@ public class FireController : MonoBehaviour {
         burnFuel ();
     }
 
-    public void Interact () {
+    public override void Interact () {
         if (GameManager.Instance.numSticks > 0)
             putFuelInFire ();
         else

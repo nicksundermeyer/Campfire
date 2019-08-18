@@ -25,11 +25,12 @@ public class PlayerController : MonoBehaviour {
     public GameObject pickupPos;
 
     // collision checking
-    private FireController touchingCampfire = null;
     private GameObject touchingSconce = null;
     private GameObject currentPickup = null; // whether we currently have something in our hand
     private GameObject pickupObj = null; // potential nearby object to be picked up
-    private Door touchingDoor = null;
+    public InteractableObject touchingInteractable = null; // if touching an interactable object
+
+    public GameObject test;
 
     private void Awake () {
         rb = GetComponent<Rigidbody> ();
@@ -59,12 +60,8 @@ public class PlayerController : MonoBehaviour {
     public void Interact (InputAction.CallbackContext context) {
         // Debug.Log(context.interaction);
         if (context.interaction is UnityEngine.InputSystem.Interactions.PressInteraction) {
-            if (touchingCampfire) {
-                touchingCampfire.Interact ();
-            }
-
-            if (touchingDoor) {
-                touchingDoor.Interact ();
+            if(touchingInteractable) {
+                touchingInteractable.Interact();
             }
 
             checkPickup ();
@@ -126,14 +123,12 @@ public class PlayerController : MonoBehaviour {
     // Collision checking functions
 
     private void OnCollisionEnter (Collision other) {
-        // checking collisions with fire and sconces
-        touchingCampfire = (other.gameObject.GetComponent<FireController> () != null) ? other.gameObject.GetComponent<FireController> () : null;
-        touchingDoor = (other.gameObject.GetComponent<Door> () != null) ? other.gameObject.GetComponent<Door> () : null;
+        // checking collisions with interactable objects
+        touchingInteractable = (other.gameObject.GetComponent<InteractableObject> () != null) ? other.gameObject.GetComponent<InteractableObject> () : null;
     }
 
     private void OnCollisionExit (Collision other) {
-        touchingCampfire = null;
-        touchingDoor = null;
+        touchingInteractable = null;
     }
 
     private void OnTriggerEnter (Collider other) {
