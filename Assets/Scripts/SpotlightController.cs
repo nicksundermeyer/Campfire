@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpotlightController : InteractableObject {
+
+    public float rotationAmount = 45;
+
     public override void Interact () {
         Vector3 newRot = transform.rotation.eulerAngles;
-        newRot.y += 45;
+        newRot.y += rotationAmount;
         transform.rotation = Quaternion.Euler(newRot);
     }
 }

@@ -207,6 +207,7 @@ GameObject:
   - component: {fileID: 2680758318816691478}
   - component: {fileID: 2680758318816691479}
   - component: {fileID: 2680758318816691483}
+  - component: {fileID: 2091793079}
   m_Layer: 0
   m_Name: SpotLight
   m_TagString: Untagged
@@ -305,3 +306,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &2091793079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2680758318816691476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9b5409830f3b044bc05932023201d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationAmount: 45
