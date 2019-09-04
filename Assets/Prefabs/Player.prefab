@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 6173258519609993239}
   - component: {fileID: 6173258519609993236}
   - component: {fileID: 6173258519609993237}
-  - component: {fileID: 560438255}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -139,11 +138,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3deee894a84bdc7498d2469d23f135dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 300
+  movementSpeed: 250
+  rotationSpeed: 15
   Torch: {fileID: 0}
   CampFire: {fileID: 0}
   canDropTorch: 1
   pickupPos: {fileID: 5707373235743804800}
+  touchingInteractable: {fileID: 0}
+  inputBindings: {fileID: -944628639613478452, guid: f0e3e1085cbdda148b305a0ff682849e,
+    type: 3}
+  gamePad: 0
 --- !u!54 &6173258519609993237
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -157,123 +161,9 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
+  m_Interpolate: 1
+  m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &560438255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6173258519609993234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: f0e3e1085cbdda148b305a0ff682849e,
-    type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+DeviceLostEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+DeviceRegainedEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6173258519609993236}
-        m_MethodName: Move
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-    m_ActionId: f1106dc7-33f8-4130-8a33-939f184b1466
-    m_ActionName: Player/Move
-  - m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-    m_ActionId: 58f071ed-2e52-474c-9c0d-0ffffc6bbac7
-    m_ActionName: UI/Navigate
-  - m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-    m_ActionId: 070fd67f-9c30-4e7e-8543-9eb5d50282ee
-    m_ActionName: UI/Submit
-  - m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-    m_ActionId: f6d6acad-9f4c-4afa-989c-59a859088cda
-    m_ActionName: UI/Cancel
-  - m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-    m_ActionId: 5ce9004b-fab2-4935-9a82-4cf92f2a947d
-    m_ActionName: UI/Point
-  - m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-    m_ActionId: dcfdd474-9b7b-458d-bf7c-266905dd0e21
-    m_ActionName: UI/Click
-  - m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-    m_ActionId: db485fda-e3f0-4909-a01a-a8a129072721
-    m_ActionName: UI/ScrollWheel
-  - m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-    m_ActionId: 9f01a26c-3c47-45ad-b0c8-cb715317680d
-    m_ActionName: UI/MiddleClick
-  - m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-    m_ActionId: b3d2e43e-1042-40c6-b3f6-6801463ef81b
-    m_ActionName: UI/RightClick
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6173258519609993236}
-        m_MethodName: Interact
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.InputSystem.Plugins.PlayerInput.PlayerInput+ActionEvent,
-      Unity.InputSystem, Version=0.2.10.0, Culture=neutral, PublicKeyToken=null
-    m_ActionId: 05e1f139-8554-4fdb-ad47-a75dedb126e0
-    m_ActionName: Player/Interact
-  m_AutoSwitchControlScheme: 0
-  m_DefaultControlScheme: Keyboard&Mouse
-  m_DefaultActionMap: c23291e8-c5f3-4b74-b3cb-49f4364e6473
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &6173258521167851383
 GameObject:
   m_ObjectHideFlags: 0

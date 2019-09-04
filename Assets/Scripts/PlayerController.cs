@@ -4,8 +4,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour {
-    //movement variable
+    //movement variables
     public float movementSpeed = 20f;
+    public float rotationSpeed = 20f;
+
+    private float horizAxis = 0f;
+    private float vertAxis = 0f;
 
     // GameObject references
     public GameObject Torch;
@@ -28,9 +32,13 @@ public class PlayerController : MonoBehaviour {
     private GameObject touchingSconce = null;
     private GameObject currentPickup = null; // whether we currently have something in our hand
     private GameObject pickupObj = null; // potential nearby object to be picked up
-    public InteractableObject touchingInteractable = null; // if touching an interactable object
+    private InteractableObject touchingInteractable = null; // if touching an interactable object
 
-    public GameObject test;
+    public InputActionAsset inputBindings;
+    private InputAction move;
+    private InputAction interact;
+
+    public bool gamePad = false;
 
     private void Awake () {
         rb = GetComponent<Rigidbody> ();
@@ -38,33 +46,48 @@ public class PlayerController : MonoBehaviour {
         torchComponent = Torch.GetComponent<Torch> ();
         anim = GetComponent<Animator> ();
         audio = GetComponent<AudioSource> ();
+
+        inputBindings.Enable();
+        move = inputBindings.FindAction("Move");
+        interact = inputBindings.FindAction("Interact");
     }
 
-    /// <summary>
-    /// Called on move input
-    /// </summary>
-    /// <param name="context">InputAction context information</param>
-    public void Move (InputAction.CallbackContext context) {
-        float horizAxis = context.ReadValue<Vector2> ().x;
-        float vertAxis = context.ReadValue<Vector2> ().y;
+    private void FixedUpdate () {
+        // rotate player to face mouse position
+        if (gamePad) {
+            // rotate player to face gamepad right stick position
+            Vector2 rightStick = Gamepad.current.rightStick.ReadValue ();
+            Vector3 rotation = new Vector3 (rightStick.x, 0f, rightStick.y);
 
+            rb.rotation = Quaternion.LookRotation (rotation);
+        } else {
+            Ray ray = Camera.main.ScreenPointToRay (Mouse.current.position.ReadValue ());
+            RaycastHit hit = new RaycastHit ();
+            if (Physics.Raycast (ray.origin, ray.direction, out hit)) {
+                Vector3 target = hit.point - transform.position;
+                target.y = 0.0f;
+                rb.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (target), rotationSpeed * Time.deltaTime);
+            }
+        }
+
+        // player movment
         Vector3 movement = new Vector3 (movementSpeed * Time.deltaTime * horizAxis, rb.velocity.y, movementSpeed * Time.deltaTime * vertAxis);
 
         rb.velocity = movement;
     }
 
-    /// <summary>
-    /// called on interact button input
-    /// </summary>
-    /// <param name="context">InputAction context information</param>
-    public void Interact (InputAction.CallbackContext context) {
-        // Debug.Log(context.interaction);
-        if (context.interaction is UnityEngine.InputSystem.Interactions.PressInteraction) {
+    private void Update() {
+        var moveVal = move.ReadValue<Vector2>();
+        horizAxis = moveVal.x;
+        vertAxis = moveVal.y;
+
+        if(interact.triggered) {
+            Debug.Log("Interact");
             if(touchingInteractable) {
                 touchingInteractable.Interact();
             }
 
-            checkPickup ();
+            checkPickup();
         }
     }
 

@@ -306,21 +306,6 @@ PrefabInstance:
       propertyPath: CampFire
       value: 
       objectReference: {fileID: 1035300570}
-    - target: {fileID: 6173258519609993236, guid: 931322105058b72458d965a97918c1e2,
-        type: 3}
-      propertyPath: test
-      value: 
-      objectReference: {fileID: 544184149}
-    - target: {fileID: 6173258521044281254, guid: 931322105058b72458d965a97918c1e2,
-        type: 3}
-      propertyPath: m_HDR
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6173258521044281254, guid: 931322105058b72458d965a97918c1e2,
-        type: 3}
-      propertyPath: m_AllowMSAA
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 931322105058b72458d965a97918c1e2, type: 3}
 --- !u!1 &274429285
@@ -3117,21 +3102,6 @@ PrefabInstance:
     - target: {fileID: 4499571620717099267, guid: d65100819fb06ab4bb66f3facf8c79aa,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4499571621322667757, guid: d65100819fb06ab4bb66f3facf8c79aa,
-        type: 3}
-      propertyPath: version
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4499571621322667757, guid: d65100819fb06ab4bb66f3facf8c79aa,
-        type: 3}
-      propertyPath: m_Version
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4499571621322667757, guid: d65100819fb06ab4bb66f3facf8c79aa,
-        type: 3}
-      propertyPath: useVolumetric
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
