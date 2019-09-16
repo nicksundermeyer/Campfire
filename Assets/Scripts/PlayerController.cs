@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
     //movement variables
     public float movementSpeed = 20f;
     public float rotationSpeed = 20f;
+    private float tempRotationSpeed;
 
     private float horizAxis = 0f;
     private float vertAxis = 0f;
@@ -46,10 +47,11 @@ public class PlayerController : MonoBehaviour {
         torchComponent = Torch.GetComponent<Torch> ();
         anim = GetComponent<Animator> ();
         audio = GetComponent<AudioSource> ();
+        tempRotationSpeed = rotationSpeed;
 
-        inputBindings.Enable();
-        move = inputBindings.FindAction("Move");
-        interact = inputBindings.FindAction("Interact");
+        inputBindings.Enable ();
+        move = inputBindings.FindAction ("Move");
+        interact = inputBindings.FindAction ("Interact");
     }
 
     private void FixedUpdate () {
@@ -64,9 +66,9 @@ public class PlayerController : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay (Mouse.current.position.ReadValue ());
             RaycastHit hit = new RaycastHit ();
             if (Physics.Raycast (ray.origin, ray.direction, out hit)) {
-                Vector3 target = hit.point - transform.position;
+                Vector3 target = hit.point - rb.position;
                 target.y = 0.0f;
-                rb.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (target), rotationSpeed * Time.deltaTime);
+                rb.rotation = Quaternion.Slerp (rb.rotation, Quaternion.LookRotation (target), tempRotationSpeed * Time.deltaTime);
             }
         }
 
@@ -76,18 +78,17 @@ public class PlayerController : MonoBehaviour {
         rb.velocity = movement;
     }
 
-    private void Update() {
-        var moveVal = move.ReadValue<Vector2>();
+    private void Update () {
+        var moveVal = move.ReadValue<Vector2> ();
         horizAxis = moveVal.x;
         vertAxis = moveVal.y;
 
-        if(interact.triggered) {
-            Debug.Log("Interact");
-            if(touchingInteractable) {
-                touchingInteractable.Interact();
+        if (interact.triggered) {
+            if (touchingInteractable) {
+                touchingInteractable.Interact ();
             }
 
-            checkPickup();
+            checkPickup ();
         }
     }
 
@@ -120,20 +121,28 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
     private void pickupObject () {
         currentPickup = pickupObj;
-        // set kinematic and disable collider
+
         currentPickup.GetComponent<Rigidbody> ().isKinematic = true;
-        currentPickup.GetComponent<Collider> ().enabled = false;
-        // parent object to pickup position
+
         currentPickup.transform.parent = pickupPos.transform;
-        // set position and rotation
-        currentPickup.transform.localPosition = new Vector3 (0, 0, 0);
-        currentPickup.transform.localEulerAngles = new Vector3 (0, 0, 0);
+
+        if (pickupObj.tag == "Drag") {
+            tempRotationSpeed = rotationSpeed / 4;
+        } else {
+            currentPickup.GetComponent<Collider> ().enabled = false;
+
+            // set position and rotation
+            currentPickup.transform.localPosition = new Vector3 (0, 0, 0);
+            currentPickup.transform.localEulerAngles = new Vector3 (0, 0, 0);
+        }
+
     }
 
     /// <summary>
     /// Called to drop object and unparent it from player
     /// </summary>
     private void dropObject () {
+        tempRotationSpeed = rotationSpeed;
         // unparent currently picked up object
         currentPickup.transform.parent = null;
         // set non kinematic and enable collider
@@ -155,7 +164,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnTriggerEnter (Collider other) {
-        pickupObj = (other.gameObject.tag == "Pickup") ? other.gameObject : null;
+        pickupObj = (other.gameObject.tag == "Pickup" || other.gameObject.tag == "Drag") ? other.gameObject : null;
+        Debug.Log (pickupObj);
         touchingSconce = (other.gameObject.name == "Sconce") ? other.gameObject : null;
     }
 
